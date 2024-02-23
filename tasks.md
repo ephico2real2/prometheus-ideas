@@ -63,3 +63,45 @@
 
 ---
 
+---
+
+**Title:** Integrate Custom PromQL Queries into Prometheus Adapter ConfigMap
+
+**Description:** As part of our ongoing efforts to improve application monitoring and scalability, we need to integrate custom PromQL queries into our Prometheus adapter's configuration. This task involves updating the Prometheus adapter's ConfigMap with the PromQL queries developed for monitoring HTTP request counts and live JVM thread counts. The successful execution of this task will enable our Kubernetes cluster to utilize these metrics for horizontal pod autoscaling (HPA), as well as enhance our monitoring dashboards and alerting systems.
+
+**Acceptance Criteria:**
+1. Update the Prometheus adapter ConfigMap to include the new PromQL queries for `http_server_requests_seconds_count` and `jvm_threads_live_threads`.
+2. Ensure that the queries are correctly formatted and placed within the `rules` section of the adapter's configuration.
+3. Validate the ConfigMap changes by applying them in a controlled environment to avoid any disruption to current monitoring or scaling operations.
+4. Confirm that the Prometheus adapter correctly interprets the queries and that the custom metrics are being reported as expected.
+5. Demonstrate that these custom metrics can be queried through the Kubernetes API and are available for use in HPA or other monitoring tools.
+6. Document the process of updating the ConfigMap and any relevant details about the queries within the team's knowledge base or relevant documentation.
+7. Coordinate with the development and operations teams to ensure a smooth rollout of the changes to production environments, including any necessary monitoring to catch potential issues early.
+
+**Technical Notes:**
+- The ConfigMap update involves modifying the `prometheus-adapter` ConfigMap, typically found within the `custom-metrics` section. 
+- Example snippet for the ConfigMap:
+  ```yaml
+  rules:
+    - seriesQuery: 'http_server_requests_seconds_count{job="<job_name>"}'
+      resources:
+        template: <<.Resource>>
+      name:
+        matches: "^(.*)$"
+        as: "http_requests_total"
+      metricsQuery: 'sum(rate(<<.Series>>{<<.LabelMatchers>>}[2m])) by (<<.GroupBy>>)'
+
+    - seriesQuery: 'jvm_threads_live_threads{job="<job_name>"}'
+      resources:
+        template: <<.Resource>>
+      name:
+        matches: "^(.*)$"
+        as: "jvm_live_threads"
+      metricsQuery: 'avg(<<.Series>>{<<.LabelMatchers>>}) by (<<.GroupBy>>)'
+  ```
+- Ensure to replace `<job_name>` with the appropriate value for your environment.
+- Test thoroughly in a non-production environment before rolling out to avoid any potential impact on monitoring or autoscaling capabilities.
+
+**Assignee:** [DevOps Team Member's Name]
+
+---
