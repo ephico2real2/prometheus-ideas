@@ -36,3 +36,30 @@
 
 ---
 
+---
+
+**Title:** Develop PromQL Queries for Monitoring HTTP Requests and JVM Threads
+
+**Description:** In order to enhance our monitoring capabilities and gain deeper insights into our application's performance and health, we need to develop specific PromQL queries. These queries will target metrics exposed by our application through Prometheus, focusing on HTTP request duration and JVM thread metrics. The goal is to utilize the `http_server_requests_seconds_count` metric for monitoring the count of HTTP requests over time, and the `jvm_threads_live_threads` metric for tracking the number of live JVM threads. These queries will be used in our Prometheus adapter configuration to enable real-time monitoring and alerting based on these key performance indicators.
+
+**Acceptance Criteria:**
+1. Develop a PromQL query that calculates the total count of HTTP requests over a specified time window using the `http_server_requests_seconds_count` metric.
+2. Develop a PromQL query to monitor the current number of live JVM threads using the `jvm_threads_live_threads` metric.
+3. Ensure that both queries are optimized for performance and accuracy, considering the potential volume of data.
+4. Test the queries within our Prometheus environment to confirm they return expected results without any errors.
+5. Document the queries, including descriptions of what they measure and how they can be used within our monitoring and alerting framework.
+6. Provide examples of how these queries can be integrated into dashboard visualizations or alerting rules.
+7. Review the potential impact of these queries on Prometheus performance, ensuring they do not lead to excessive resource consumption.
+
+**Technical Notes:**
+- When developing the PromQL query for `http_server_requests_seconds_count`, consider filtering or aggregating by labels such as `method`, `status`, or `uri` if specific insights are required.
+- For `jvm_threads_live_threads`, the query may be straightforward, but consider if aggregation over time or comparison against thresholds is necessary for alerting.
+- Sample PromQL starting points:
+  - For HTTP request count: `sum(rate(http_server_requests_seconds_count[5m])) by (method, status)`
+  - For live JVM threads: `jvm_threads_live_threads`
+- Review Prometheus documentation on PromQL for best practices on query optimization and efficiency.
+
+**Assignee:** [Developer's Name]
+
+---
+
