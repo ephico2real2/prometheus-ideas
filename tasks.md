@@ -105,3 +105,27 @@
 **Assignee:** [DevOps Team Member's Name]
 
 ---
+
+---
+
+**Title:** Conduct Stress and Performance Testing to Determine HPA Thresholds
+
+**Description:** As we integrate custom metrics into our Prometheus adapter for autoscaling purposes, it is crucial to accurately determine the thresholds at which our application should scale horizontally. This task is assigned to the QA team to conduct comprehensive stress and performance testing on our application. The goal is to identify how the application performs under various loads, specifically focusing on the metrics `http_server_requests_seconds_count` and `jvm_threads_live_threads`. These insights will inform our HPA configuration, ensuring our application scales efficiently and maintains performance under varying loads.
+
+**Acceptance Criteria:**
+1. Design and execute stress tests that gradually increase the load on the application, monitoring `http_server_requests_seconds_count` and `jvm_threads_live_threads` metrics.
+2. Document the application's performance at different load levels, identifying any bottlenecks or performance issues.
+3. Determine the optimal thresholds for HPA based on the metrics observed during testing, ensuring the application can handle sudden increases in traffic without degradation of service.
+4. Provide recommendations for HPA configuration settings, including minimum and maximum pod counts, and the specific metrics thresholds that should trigger scaling.
+5. Create a detailed report of the testing process, results, and recommendations for the HPA configuration. This report should be accessible to both the DevOps and development teams for review and action.
+6. Ensure that any critical issues identified during testing are highlighted and communicated to the development team for optimization before finalizing HPA thresholds.
+7. Coordinate with the DevOps team to implement a pilot phase for the proposed HPA settings in a controlled environment, validating the effectiveness of the scaling thresholds under simulated traffic patterns.
+
+**Technical Notes:**
+- Utilize tools such as JMeter, Gatling, or Locust for stress testing, ensuring a variety of scenarios are covered, from typical usage patterns to peak load and beyond.
+- Consider integrating Prometheus metrics directly into the performance testing suite to automate the collection of relevant data points.
+- Collaboration with the development and DevOps teams is essential to understand any known limitations and to ensure the testing environment closely mirrors production.
+
+**Assignee:** [QA Team Lead's Name]
+
+---
